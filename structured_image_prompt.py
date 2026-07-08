@@ -71,7 +71,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": "style: cinematic fantasy realism, detailed materials, coherent composition",
-                        "tooltip": "Allgemeiner visueller Stil: Genre, Medium, Render-Look, Epoche, Detailgrad.",
+                        "tooltip": "Overall visual style: genre, medium, render look, era, and detail level.",
                     },
                 ),
                 INPUT_KEYS["camera_angle"]: (
@@ -79,7 +79,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": "camera angle: medium full shot, slight low angle, 35mm lens perspective",
-                        "tooltip": "Kameraperspektive, Bildausschnitt, Brennweite, Komposition und Blickrichtung.",
+                        "tooltip": "Camera perspective, framing, lens feel, composition, and viewing angle.",
                     },
                 ),
                 INPUT_KEYS["lighting"]: (
@@ -87,7 +87,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": "lighting: soft rim light, warm key light, atmospheric depth",
-                        "tooltip": "Lichtquellen, Stimmung, Schatten, Kontrast, Tageszeit und Atmosphaere.",
+                        "tooltip": "Light sources, mood, shadows, contrast, time of day, and atmosphere.",
                     },
                 ),
                 INPUT_KEYS["background"]: (
@@ -95,7 +95,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": "background: ancient city street after rain, distant lanterns, subtle mist",
-                        "tooltip": "Ort, Umgebung, Wetter, Architektur, Tiefe und sichtbare Hintergrundelemente.",
+                        "tooltip": "Location, environment, weather, architecture, depth, and visible background elements.",
                     },
                 ),
                 INPUT_KEYS["characters"]: (
@@ -107,7 +107,7 @@ class ICStructuredImagePrompt:
                             "Mira: young rogue mage, short silver hair, confident expression\n"
                             "Oskar: old mechanic, heavy beard, tired eyes"
                         ),
-                        "tooltip": "Figuren als Name: Beschreibung. Diese Namen kannst du in Handlung, Kleidung und Assets wiederverwenden.",
+                        "tooltip": "Characters as name: description. Reuse these names in action, clothing, and assets.",
                     },
                 ),
                 INPUT_KEYS["action"]: (
@@ -115,7 +115,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": "action: [Mira] watches the rooftops while [Oskar] repairs a small flying drone beside her",
-                        "tooltip": "Was passiert im Bild? Nutze [Name], um Charaktere eindeutig zu referenzieren.",
+                        "tooltip": "What happens in the image. Use [name] to reference characters clearly.",
                     },
                 ),
                 INPUT_KEYS["clothing"]: (
@@ -127,7 +127,7 @@ class ICStructuredImagePrompt:
                             "Mira: black tactical coat, blue scarf, leather boots\n"
                             "Oskar: worn orange work jacket, welding gloves"
                         ),
-                        "tooltip": "Kleidung pro Charakter als Name: Kleidung. Namen muessen zum Charakterblock passen.",
+                        "tooltip": "Clothing per character as name: clothing. Names should match the characters field.",
                     },
                 ),
                 INPUT_KEYS["assets"]: (
@@ -139,7 +139,7 @@ class ICStructuredImagePrompt:
                             "Mira: engraved wand, glowing wrist charm\n"
                             "Oskar: toolbox, brass repair drone"
                         ),
-                        "tooltip": "Objekte, Waffen, Props, Begleiter oder wichtige Gegenstaende pro Charakter.",
+                        "tooltip": "Objects, weapons, props, companions, or important items per character.",
                     },
                 ),
                 INPUT_KEYS["quality_tags"]: (
@@ -147,7 +147,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": "quality tags: high quality, sharp focus, rich texture detail, natural color harmony",
-                        "tooltip": "Qualitaets- und Detailbegriffe, die am Ende des positiven Prompts ergaenzt werden.",
+                        "tooltip": "Quality and detail terms appended near the end of the positive prompt.",
                     },
                 ),
                 INPUT_KEYS["negative_prompt"]: (
@@ -155,34 +155,34 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": f"negative prompt: {DEFAULT_NEGATIVE_PROMPT}",
-                        "tooltip": "Begriffe, die im Bild vermieden werden sollen.",
+                        "tooltip": "Terms that should be avoided in the image.",
                     },
                 ),
                 INPUT_KEYS["prompt_format"]: (
                     ["natural", "tagged", "cinematic", "sdxl", "flux"],
-                    {"default": "natural", "tooltip": "Bestimmt, wie die Abschnitte zu einem Prompt zusammengesetzt werden."},
+                    {"default": "natural", "tooltip": "Controls how the sections are assembled into one prompt."},
                 ),
                 INPUT_KEYS["include_labels"]: (
                     "BOOLEAN",
-                    {"default": False, "tooltip": "Wenn aktiv, bleiben Abschnittsnamen wie style/background im fertigen Prompt."},
+                    {"default": False, "tooltip": "When enabled, section labels such as style/background remain in the final prompt."},
                 ),
                 INPUT_KEYS["strict_character_refs"]: (
                     "BOOLEAN",
-                    {"default": True, "tooltip": "Warnt, wenn Kleidung, Assets oder [Name]-Referenzen keinen Charakter treffen."},
+                    {"default": True, "tooltip": "Warns when clothing, assets, or [name] references do not match a character."},
                 ),
                 INPUT_KEYS["show_debug"]: (
                     "BOOLEAN",
-                    {"default": True, "tooltip": "Zeigt Prompt, Negative Prompt, Charakter-Zusammenfassung und Warnungen in der Node-Ausgabe."},
+                    {"default": True, "tooltip": "Shows prompt, negative prompt, character summary, and warnings in the node output."},
                 ),
             },
             "optional": {
                 INPUT_KEYS["prompt_prefix"]: (
                     "STRING",
-                    {"multiline": False, "default": "", "tooltip": "Text, der vor den fertigen Prompt gesetzt wird, z.B. LoRA-Trigger."},
+                    {"multiline": False, "default": "", "tooltip": "Text placed before the final prompt, for example a LoRA trigger."},
                 ),
                 INPUT_KEYS["prompt_suffix"]: (
                     "STRING",
-                    {"multiline": False, "default": "", "tooltip": "Text, der nach den fertigen Prompt gesetzt wird."},
+                    {"multiline": False, "default": "", "tooltip": "Text placed after the final prompt."},
                 ),
             },
         }
