@@ -108,10 +108,17 @@ The `prompt_format` input supports:
 - `sdxl`
 - `flux`
 
-Most formats generate a clear director-style prompt with explicit sentences for
-scene action, character details, camera framing, lighting, visual style, and
-quality cues. The `tagged` format remains comma-separated for tag-heavy
-workflows.
+`natural` and `cinematic` generate clear director-style prompts with explicit
+sentences for scene action, character details, camera framing, lighting, visual
+style, and quality cues.
+
+`sdxl` generates a tag-oriented prompt with SDXL-style quality anchors such as
+`masterpiece`, `best quality`, `highly detailed`, and `visually coherent`.
+
+`flux` generates a natural-language prompt with cleaner descriptive sentences
+and avoids classic SDXL quality boilerplate.
+
+The `tagged` format remains comma-separated for tag-heavy workflows.
 
 `prompt_prefix` and `prompt_suffix` can be used for model-specific tokens, LoRA triggers, or house style tags.
 

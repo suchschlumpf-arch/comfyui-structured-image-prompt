@@ -352,15 +352,77 @@ class ICStructuredImagePrompt:
         if prompt_format == "cinematic":
             return self._format_descriptive_prompt(cleaned, "Create a cinematic image")
         if prompt_format == "sdxl":
-            return self._join_parts(
-                [
-                    self._format_descriptive_prompt(cleaned, "Create a detailed image"),
-                    "masterpiece, best quality, detailed, visually coherent",
-                ]
-            )
+            return self._format_sdxl_prompt(cleaned)
         if prompt_format == "flux":
-            return self._format_descriptive_prompt(cleaned, "Describe a clear image")
+            return self._format_flux_prompt(cleaned)
         return self._format_descriptive_prompt(cleaned, "Create a coherent image")
+
+    def _format_sdxl_prompt(self, cleaned_sections):
+        sections = {label: value for label, value in cleaned_sections}
+        parts = [
+            "masterpiece",
+            "best quality",
+            "highly detailed",
+            "visually coherent",
+        ]
+        ordered_labels = (
+            "style",
+            "characters",
+            "action",
+            "clothing",
+            "assets",
+            "background",
+            "camera",
+            "lighting",
+            "quality",
+        )
+        for label in ordered_labels:
+            value = sections.get(label)
+            if value:
+                parts.append(self._tag_friendly(value))
+        return self._join_parts(parts)
+
+    def _format_flux_prompt(self, cleaned_sections):
+        sections = {label: value for label, value in cleaned_sections}
+        action = sections.get("action")
+        background = sections.get("background")
+        characters = sections.get("characters")
+        style = sections.get("style")
+        camera = sections.get("camera")
+        lighting = sections.get("lighting")
+        quality = sections.get("quality")
+
+        sentences = []
+        if action and background:
+            sentences.append(f"A clear image of a scene where {action}, set in {background}")
+        elif action:
+            sentences.append(f"A clear image of a scene where {action}")
+        elif characters and background:
+            sentences.append(f"A clear image of {characters} in {background}")
+        elif characters:
+            sentences.append(f"A clear image of {characters}")
+        elif background:
+            sentences.append(f"A clear image set in {background}")
+        else:
+            sentences.append("A clear image")
+
+        if characters and action:
+            sentences.append(f"{characters}")
+        if camera:
+            sentences.append(f"The composition uses {camera}")
+        if lighting:
+            sentences.append(f"The lighting is {lighting}")
+        if style:
+            sentences.append(f"The visual style is {style}")
+        if quality:
+            sentences.append(f"Keep the image {quality}")
+
+        return self._join_sentences(sentences)
+
+    def _tag_friendly(self, text):
+        text = self._clean_text(text)
+        text = re.sub(r"\.\s+", ", ", text)
+        return text.strip(" ,.;:-")
 
     def _format_descriptive_prompt(self, cleaned_sections, opener):
         sections = {label: value for label, value in cleaned_sections}
