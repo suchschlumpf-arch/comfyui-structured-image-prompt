@@ -38,22 +38,25 @@ Outputs:
 
 ## Inputs
 
-The ComfyUI node uses numbered input headings:
+The ComfyUI node uses short, visible input headings and tooltips:
 
-- `01 Bildstil`
-- `02 Bildwinkel / Kamera`
-- `03 Beleuchtung`
-- `04 Hintergrund`
-- `05 Charaktere`
-- `06 Handlung`
-- `07 Kleidung`
-- `08 Assets / Requisiten`
-- `09 Qualitaets-Tags`
-- `10 Negativer Prompt`
-- `11 Prompt-Format`
-- `12 Abschnittsueberschriften im Prompt`
-- `13 Charakter-Referenzen pruefen`
-- `14 Prompt in der Node anzeigen`
+- `BILDSTIL / LOOK`
+- `KAMERA / BILDWINKEL`
+- `BELEUCHTUNG`
+- `HINTERGRUND / SETTING`
+- `CHARAKTERE`
+- `HANDLUNG / POSE`
+- `KLEIDUNG`
+- `ASSETS / REQUISITEN`
+- `QUALITAET / DETAILS`
+- `NEGATIVER PROMPT`
+- `PROMPT-FORMAT`
+- `LABELS IM PROMPT`
+- `REFERENZEN PRUEFEN`
+- `PROMPT IN NODE ANZEIGEN`
+
+Default text fields also include visible helper headers such as `[CHARAKTERE]`.
+These helper headers are stripped automatically and will not appear in the final prompt.
 
 ## Character References
 

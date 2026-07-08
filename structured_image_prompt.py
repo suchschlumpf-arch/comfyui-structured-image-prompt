@@ -8,22 +8,44 @@ DEFAULT_NEGATIVE_PROMPT = (
 
 
 INPUT_KEYS = {
-    "style": "01 Bildstil",
-    "camera_angle": "02 Bildwinkel / Kamera",
-    "lighting": "03 Beleuchtung",
-    "background": "04 Hintergrund",
-    "characters": "05 Charaktere",
-    "action": "06 Handlung",
-    "clothing": "07 Kleidung",
-    "assets": "08 Assets / Requisiten",
-    "quality_tags": "09 Qualitaets-Tags",
-    "negative_prompt": "10 Negativer Prompt",
-    "prompt_format": "11 Prompt-Format",
-    "include_labels": "12 Abschnittsueberschriften im Prompt",
-    "strict_character_refs": "13 Charakter-Referenzen pruefen",
-    "show_debug": "14 Prompt in der Node anzeigen",
+    "style": "BILDSTIL / LOOK",
+    "camera_angle": "KAMERA / BILDWINKEL",
+    "lighting": "BELEUCHTUNG",
+    "background": "HINTERGRUND / SETTING",
+    "characters": "CHARAKTERE",
+    "action": "HANDLUNG / POSE",
+    "clothing": "KLEIDUNG",
+    "assets": "ASSETS / REQUISITEN",
+    "quality_tags": "QUALITAET / DETAILS",
+    "negative_prompt": "NEGATIVER PROMPT",
+    "prompt_format": "PROMPT-FORMAT",
+    "include_labels": "LABELS IM PROMPT",
+    "strict_character_refs": "REFERENZEN PRUEFEN",
+    "show_debug": "PROMPT IN NODE ANZEIGEN",
     "prompt_prefix": "Optional: Prompt-Prefix",
     "prompt_suffix": "Optional: Prompt-Suffix",
+}
+
+
+FIELD_HEADINGS = {
+    "BILDSTIL",
+    "BILDSTIL / LOOK",
+    "KAMERA",
+    "KAMERA / BILDWINKEL",
+    "BELEUCHTUNG",
+    "HINTERGRUND",
+    "HINTERGRUND / SETTING",
+    "CHARAKTERE",
+    "HANDLUNG",
+    "HANDLUNG / POSE",
+    "KLEIDUNG",
+    "ASSETS",
+    "ASSETS / REQUISITEN",
+    "QUALITAET",
+    "QUALITAET / DETAILS",
+    "NEGATIVER PROMPT",
+    "PROMPT-PREFIX",
+    "PROMPT-SUFFIX",
 }
 
 
@@ -36,28 +58,44 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "cinematic fantasy realism, detailed materials, coherent composition",
+                        "default": (
+                            "[BILDSTIL / LOOK]\n"
+                            "cinematic fantasy realism, detailed materials, coherent composition"
+                        ),
+                        "tooltip": "Allgemeiner visueller Stil: Genre, Medium, Render-Look, Epoche, Detailgrad.",
                     },
                 ),
                 INPUT_KEYS["camera_angle"]: (
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "medium full shot, slight low angle, 35mm lens perspective",
+                        "default": (
+                            "[KAMERA / BILDWINKEL]\n"
+                            "medium full shot, slight low angle, 35mm lens perspective"
+                        ),
+                        "tooltip": "Kameraperspektive, Bildausschnitt, Brennweite, Komposition und Blickrichtung.",
                     },
                 ),
                 INPUT_KEYS["lighting"]: (
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "soft rim light, warm key light, atmospheric depth",
+                        "default": (
+                            "[BELEUCHTUNG]\n"
+                            "soft rim light, warm key light, atmospheric depth"
+                        ),
+                        "tooltip": "Lichtquellen, Stimmung, Schatten, Kontrast, Tageszeit und Atmosphaere.",
                     },
                 ),
                 INPUT_KEYS["background"]: (
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "ancient city street after rain, distant lanterns, subtle mist",
+                        "default": (
+                            "[HINTERGRUND / SETTING]\n"
+                            "ancient city street after rain, distant lanterns, subtle mist"
+                        ),
+                        "tooltip": "Ort, Umgebung, Wetter, Architektur, Tiefe und sichtbare Hintergrundelemente.",
                     },
                 ),
                 INPUT_KEYS["characters"]: (
@@ -65,16 +103,22 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": (
+                            "[CHARAKTERE]\n"
                             "Mira: young rogue mage, short silver hair, confident expression\n"
                             "Oskar: old mechanic, heavy beard, tired eyes"
                         ),
+                        "tooltip": "Figuren als Name: Beschreibung. Diese Namen kannst du in Handlung, Kleidung und Assets wiederverwenden.",
                     },
                 ),
                 INPUT_KEYS["action"]: (
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "Mira watches the rooftops while Oskar repairs a small flying drone beside her",
+                        "default": (
+                            "[HANDLUNG / POSE]\n"
+                            "[Mira] watches the rooftops while [Oskar] repairs a small flying drone beside her"
+                        ),
+                        "tooltip": "Was passiert im Bild? Nutze [Name], um Charaktere eindeutig zu referenzieren.",
                     },
                 ),
                 INPUT_KEYS["clothing"]: (
@@ -82,9 +126,11 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": (
+                            "[KLEIDUNG]\n"
                             "Mira: black tactical coat, blue scarf, leather boots\n"
                             "Oskar: worn orange work jacket, welding gloves"
                         ),
+                        "tooltip": "Kleidung pro Charakter als Name: Kleidung. Namen muessen zum Charakterblock passen.",
                     },
                 ),
                 INPUT_KEYS["assets"]: (
@@ -92,36 +138,58 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": (
+                            "[ASSETS / REQUISITEN]\n"
                             "Mira: engraved wand, glowing wrist charm\n"
                             "Oskar: toolbox, brass repair drone"
                         ),
+                        "tooltip": "Objekte, Waffen, Props, Begleiter oder wichtige Gegenstaende pro Charakter.",
                     },
                 ),
                 INPUT_KEYS["quality_tags"]: (
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "high quality, sharp focus, rich texture detail, natural color harmony",
+                        "default": (
+                            "[QUALITAET / DETAILS]\n"
+                            "high quality, sharp focus, rich texture detail, natural color harmony"
+                        ),
+                        "tooltip": "Qualitaets- und Detailbegriffe, die am Ende des positiven Prompts ergaenzt werden.",
                     },
                 ),
                 INPUT_KEYS["negative_prompt"]: (
                     "STRING",
                     {
                         "multiline": True,
-                        "default": DEFAULT_NEGATIVE_PROMPT,
+                        "default": f"[NEGATIVER PROMPT]\n{DEFAULT_NEGATIVE_PROMPT}",
+                        "tooltip": "Begriffe, die im Bild vermieden werden sollen.",
                     },
                 ),
                 INPUT_KEYS["prompt_format"]: (
                     ["natural", "tagged", "cinematic", "sdxl", "flux"],
-                    {"default": "natural"},
+                    {"default": "natural", "tooltip": "Bestimmt, wie die Abschnitte zu einem Prompt zusammengesetzt werden."},
                 ),
-                INPUT_KEYS["include_labels"]: ("BOOLEAN", {"default": False}),
-                INPUT_KEYS["strict_character_refs"]: ("BOOLEAN", {"default": True}),
-                INPUT_KEYS["show_debug"]: ("BOOLEAN", {"default": True}),
+                INPUT_KEYS["include_labels"]: (
+                    "BOOLEAN",
+                    {"default": False, "tooltip": "Wenn aktiv, bleiben Abschnittsnamen wie style/background im fertigen Prompt."},
+                ),
+                INPUT_KEYS["strict_character_refs"]: (
+                    "BOOLEAN",
+                    {"default": True, "tooltip": "Warnt, wenn Kleidung, Assets oder [Name]-Referenzen keinen Charakter treffen."},
+                ),
+                INPUT_KEYS["show_debug"]: (
+                    "BOOLEAN",
+                    {"default": True, "tooltip": "Zeigt Prompt, Negative Prompt, Charakter-Zusammenfassung und Warnungen in der Node-Ausgabe."},
+                ),
             },
             "optional": {
-                INPUT_KEYS["prompt_prefix"]: ("STRING", {"multiline": True, "default": ""}),
-                INPUT_KEYS["prompt_suffix"]: ("STRING", {"multiline": True, "default": ""}),
+                INPUT_KEYS["prompt_prefix"]: (
+                    "STRING",
+                    {"multiline": True, "default": "", "tooltip": "Text, der vor den fertigen Prompt gesetzt wird, z.B. LoRA-Trigger."},
+                ),
+                INPUT_KEYS["prompt_suffix"]: (
+                    "STRING",
+                    {"multiline": True, "default": "", "tooltip": "Text, der nach den fertigen Prompt gesetzt wird."},
+                ),
             },
         }
 
@@ -213,6 +281,8 @@ class ICStructuredImagePrompt:
             line = raw_line.strip()
             if not line:
                 continue
+            if self._is_heading_line(line):
+                continue
             line = re.sub(r"^[-*]\s+", "", line)
             match = re.match(r"^([A-Za-zÀ-ÖØ-öø-ÿ0-9 _.'-]{1,48})\s*:\s*(.+)$", line)
             if match:
@@ -264,6 +334,8 @@ class ICStructuredImagePrompt:
         bracket_refs = re.findall(r"\[([^\]]+)\]", action)
         for name in bracket_refs:
             clean = self._clean_name(name)
+            if clean.upper() in FIELD_HEADINGS:
+                continue
             if clean and clean not in characters:
                 warnings.append(f"Unknown character reference in action: {clean}")
         return warnings
@@ -305,10 +377,34 @@ class ICStructuredImagePrompt:
     def _clean_text(self, text):
         text = (text or "").strip()
         text = text.replace("\r\n", "\n").replace("\r", "\n")
+        text = self._strip_leading_heading(text)
         text = re.sub(r"\s+", " ", text)
         text = re.sub(r"\s+,", ",", text)
         text = re.sub(r",\s*,+", ",", text)
         return text.strip(" ,.;:-")
+
+    def _strip_leading_heading(self, text):
+        while True:
+            stripped = text.lstrip()
+            match = re.match(r"^\[([^\]]+)\]\s*", stripped)
+            if match and match.group(1).strip().upper() in FIELD_HEADINGS:
+                text = stripped[match.end():]
+                continue
+            match = re.match(r"^([A-Z /-]{3,40})\s*:\s*", stripped)
+            if match and match.group(1).strip().upper() in FIELD_HEADINGS:
+                text = stripped[match.end():]
+                continue
+            return text
+
+    def _is_heading_line(self, line):
+        stripped = line.strip()
+        bracketed = re.match(r"^\[([^\]]+)\]$", stripped)
+        if bracketed:
+            return bracketed.group(1).strip().upper() in FIELD_HEADINGS
+        colon = re.match(r"^([A-Z /-]{3,40})\s*:$", stripped)
+        if colon:
+            return colon.group(1).strip().upper() in FIELD_HEADINGS
+        return stripped.upper() in FIELD_HEADINGS
 
     def _clean_prompt(self, text):
         text = self._clean_text(text)
