@@ -38,25 +38,26 @@ Outputs:
 
 ## Inputs
 
-The ComfyUI node uses short, visible input headings and tooltips:
+The ComfyUI node uses english lower-case widget names:
 
-- `=== 01 BILDSTIL / LOOK ===`
-- `=== 02 KAMERA / BILDWINKEL ===`
-- `=== 03 BELEUCHTUNG ===`
-- `=== 04 HINTERGRUND / SETTING ===`
-- `=== 05 CHARAKTERE ===`
-- `=== 06 HANDLUNG / POSE ===`
-- `=== 07 KLEIDUNG ===`
-- `=== 08 ASSETS / REQUISITEN ===`
-- `=== 09 QUALITAET / DETAILS ===`
-- `=== 10 NEGATIVER PROMPT ===`
-- `PROMPT-FORMAT`
-- `LABELS IM PROMPT`
-- `REFERENZEN PRUEFEN`
-- `PROMPT IN NODE ANZEIGEN`
+- `style`
+- `camera angle`
+- `lighting`
+- `background`
+- `characters`
+- `action`
+- `clothing`
+- `assets`
+- `quality tags`
+- `negative prompt`
+- `prompt format`
+- `include labels`
+- `check character refs`
+- `show debug`
 
-The `=== ... ===` fields are visible separator widgets. They are ignored by the
-node and will not appear in the final prompt.
+Multiline text fields can hide their names in ComfyUI's node body, so this
+package also includes a small frontend extension that draws visible lower-case
+labels above the large text fields.
 
 ## Character References
 

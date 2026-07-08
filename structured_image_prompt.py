@@ -8,36 +8,22 @@ DEFAULT_NEGATIVE_PROMPT = (
 
 
 INPUT_KEYS = {
-    "style": "BILDSTIL / LOOK",
-    "camera_angle": "KAMERA / BILDWINKEL",
-    "lighting": "BELEUCHTUNG",
-    "background": "HINTERGRUND / SETTING",
-    "characters": "CHARAKTERE",
-    "action": "HANDLUNG / POSE",
-    "clothing": "KLEIDUNG",
-    "assets": "ASSETS / REQUISITEN",
-    "quality_tags": "QUALITAET / DETAILS",
-    "negative_prompt": "NEGATIVER PROMPT",
-    "prompt_format": "PROMPT-FORMAT",
-    "include_labels": "LABELS IM PROMPT",
-    "strict_character_refs": "REFERENZEN PRUEFEN",
-    "show_debug": "PROMPT IN NODE ANZEIGEN",
-    "prompt_prefix": "Optional: Prompt-Prefix",
-    "prompt_suffix": "Optional: Prompt-Suffix",
-}
-
-
-LABEL_KEYS = {
-    "style": "Label: Bildstil",
-    "camera_angle": "Label: Kamera",
-    "lighting": "Label: Beleuchtung",
-    "background": "Label: Hintergrund",
-    "characters": "Label: Charaktere",
-    "action": "Label: Handlung",
-    "clothing": "Label: Kleidung",
-    "assets": "Label: Assets",
-    "quality_tags": "Label: Qualitaet",
-    "negative_prompt": "Label: Negativ",
+    "style": "style",
+    "camera_angle": "camera angle",
+    "lighting": "lighting",
+    "background": "background",
+    "characters": "characters",
+    "action": "action",
+    "clothing": "clothing",
+    "assets": "assets",
+    "quality_tags": "quality tags",
+    "negative_prompt": "negative prompt",
+    "prompt_format": "prompt format",
+    "include_labels": "include labels",
+    "strict_character_refs": "check character refs",
+    "show_debug": "show debug",
+    "prompt_prefix": "prompt prefix",
+    "prompt_suffix": "prompt suffix",
 }
 
 
@@ -60,6 +46,18 @@ FIELD_HEADINGS = {
     "NEGATIVER PROMPT",
     "PROMPT-PREFIX",
     "PROMPT-SUFFIX",
+    "STYLE",
+    "CAMERA ANGLE",
+    "LIGHTING",
+    "BACKGROUND",
+    "CHARACTERS",
+    "ACTION",
+    "CLOTHING",
+    "ASSETS",
+    "QUALITY TAGS",
+    "NEGATIVE PROMPT",
+    "PROMPT PREFIX",
+    "PROMPT SUFFIX",
 }
 
 
@@ -68,7 +66,6 @@ class ICStructuredImagePrompt:
     def INPUT_TYPES(cls):
         return {
             "required": {
-                LABEL_KEYS["style"]: cls._label_widget("=== 01 BILDSTIL / LOOK ==="),
                 INPUT_KEYS["style"]: (
                     "STRING",
                     {
@@ -77,7 +74,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Allgemeiner visueller Stil: Genre, Medium, Render-Look, Epoche, Detailgrad.",
                     },
                 ),
-                LABEL_KEYS["camera_angle"]: cls._label_widget("=== 02 KAMERA / BILDWINKEL ==="),
                 INPUT_KEYS["camera_angle"]: (
                     "STRING",
                     {
@@ -86,7 +82,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Kameraperspektive, Bildausschnitt, Brennweite, Komposition und Blickrichtung.",
                     },
                 ),
-                LABEL_KEYS["lighting"]: cls._label_widget("=== 03 BELEUCHTUNG ==="),
                 INPUT_KEYS["lighting"]: (
                     "STRING",
                     {
@@ -95,7 +90,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Lichtquellen, Stimmung, Schatten, Kontrast, Tageszeit und Atmosphaere.",
                     },
                 ),
-                LABEL_KEYS["background"]: cls._label_widget("=== 04 HINTERGRUND / SETTING ==="),
                 INPUT_KEYS["background"]: (
                     "STRING",
                     {
@@ -104,7 +98,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Ort, Umgebung, Wetter, Architektur, Tiefe und sichtbare Hintergrundelemente.",
                     },
                 ),
-                LABEL_KEYS["characters"]: cls._label_widget("=== 05 CHARAKTERE ==="),
                 INPUT_KEYS["characters"]: (
                     "STRING",
                     {
@@ -116,7 +109,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Figuren als Name: Beschreibung. Diese Namen kannst du in Handlung, Kleidung und Assets wiederverwenden.",
                     },
                 ),
-                LABEL_KEYS["action"]: cls._label_widget("=== 06 HANDLUNG / POSE ==="),
                 INPUT_KEYS["action"]: (
                     "STRING",
                     {
@@ -125,7 +117,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Was passiert im Bild? Nutze [Name], um Charaktere eindeutig zu referenzieren.",
                     },
                 ),
-                LABEL_KEYS["clothing"]: cls._label_widget("=== 07 KLEIDUNG ==="),
                 INPUT_KEYS["clothing"]: (
                     "STRING",
                     {
@@ -137,7 +128,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Kleidung pro Charakter als Name: Kleidung. Namen muessen zum Charakterblock passen.",
                     },
                 ),
-                LABEL_KEYS["assets"]: cls._label_widget("=== 08 ASSETS / REQUISITEN ==="),
                 INPUT_KEYS["assets"]: (
                     "STRING",
                     {
@@ -149,7 +139,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Objekte, Waffen, Props, Begleiter oder wichtige Gegenstaende pro Charakter.",
                     },
                 ),
-                LABEL_KEYS["quality_tags"]: cls._label_widget("=== 09 QUALITAET / DETAILS ==="),
                 INPUT_KEYS["quality_tags"]: (
                     "STRING",
                     {
@@ -158,7 +147,6 @@ class ICStructuredImagePrompt:
                         "tooltip": "Qualitaets- und Detailbegriffe, die am Ende des positiven Prompts ergaenzt werden.",
                     },
                 ),
-                LABEL_KEYS["negative_prompt"]: cls._label_widget("=== 10 NEGATIVER PROMPT ==="),
                 INPUT_KEYS["negative_prompt"]: (
                     "STRING",
                     {
@@ -195,17 +183,6 @@ class ICStructuredImagePrompt:
                 ),
             },
         }
-
-    @staticmethod
-    def _label_widget(text):
-        return (
-            "STRING",
-            {
-                "default": text,
-                "multiline": False,
-                "tooltip": "Sichtbarer Abschnittstrenner. Wird von der Node ignoriert.",
-            },
-        )
 
     RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING")
     RETURN_NAMES = ("prompt", "negative_prompt", "character_summary", "warnings")
