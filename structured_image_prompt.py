@@ -296,7 +296,7 @@ class ICStructuredImagePrompt:
     def _character_lines(self, characters, clothing, assets):
         lines = []
         for name, description in characters.items():
-            parts = [f"{name}: {description}"]
+            parts = [f"{name} is {description}"]
             if name in clothing:
                 parts.append(f"wearing {clothing[name]}")
             if name in assets:
@@ -350,12 +350,63 @@ class ICStructuredImagePrompt:
         if prompt_format == "tagged":
             return ", ".join(values)
         if prompt_format == "cinematic":
-            return self._join_parts(["cinematic image", *values])
+            return self._format_descriptive_prompt(cleaned, "Create a cinematic image")
         if prompt_format == "sdxl":
-            return self._join_parts([*values, "masterpiece, best quality, detailed, visually coherent"])
+            return self._join_parts(
+                [
+                    self._format_descriptive_prompt(cleaned, "Create a detailed image"),
+                    "masterpiece, best quality, detailed, visually coherent",
+                ]
+            )
         if prompt_format == "flux":
-            return self._join_sentences(values)
-        return self._join_parts(values)
+            return self._format_descriptive_prompt(cleaned, "Describe a clear image")
+        return self._format_descriptive_prompt(cleaned, "Create a coherent image")
+
+    def _format_descriptive_prompt(self, cleaned_sections, opener):
+        sections = {label: value for label, value in cleaned_sections}
+        sentences = []
+
+        action = sections.get("action")
+        background = sections.get("background")
+        characters = sections.get("characters")
+        style = sections.get("style")
+        camera = sections.get("camera")
+        lighting = sections.get("lighting")
+        quality = sections.get("quality")
+
+        if action:
+            if background:
+                sentences.append(f"{opener} of a scene where {action}, set in {background}")
+            else:
+                sentences.append(f"{opener} of a scene where {action}")
+        elif characters:
+            if background:
+                sentences.append(f"{opener} of {characters} in {background}")
+            else:
+                sentences.append(f"{opener} of {characters}")
+        elif background:
+            sentences.append(f"{opener} set in {background}")
+        else:
+            sentences.append(opener)
+
+        if characters and action:
+            sentences.append(f"Character details: {characters}")
+        clothing = sections.get("clothing")
+        if clothing:
+            sentences.append(f"Wardrobe details: {clothing}")
+        assets = sections.get("assets")
+        if assets:
+            sentences.append(f"Important props and assets: {assets}")
+        if camera:
+            sentences.append(f"Frame the shot as {camera}")
+        if lighting:
+            sentences.append(f"Use {lighting}")
+        if style:
+            sentences.append(f"Render it in {style}")
+        if quality:
+            sentences.append(f"Emphasize {quality}")
+
+        return self._join_sentences(sentences)
 
     def _join_parts(self, parts):
         cleaned = [self._clean_text(part) for part in parts if self._clean_text(part)]
