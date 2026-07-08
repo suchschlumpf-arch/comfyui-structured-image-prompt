@@ -7,40 +7,60 @@ DEFAULT_NEGATIVE_PROMPT = (
 )
 
 
+INPUT_KEYS = {
+    "style": "01 Bildstil",
+    "camera_angle": "02 Bildwinkel / Kamera",
+    "lighting": "03 Beleuchtung",
+    "background": "04 Hintergrund",
+    "characters": "05 Charaktere",
+    "action": "06 Handlung",
+    "clothing": "07 Kleidung",
+    "assets": "08 Assets / Requisiten",
+    "quality_tags": "09 Qualitaets-Tags",
+    "negative_prompt": "10 Negativer Prompt",
+    "prompt_format": "11 Prompt-Format",
+    "include_labels": "12 Abschnittsueberschriften im Prompt",
+    "strict_character_refs": "13 Charakter-Referenzen pruefen",
+    "show_debug": "14 Prompt in der Node anzeigen",
+    "prompt_prefix": "Optional: Prompt-Prefix",
+    "prompt_suffix": "Optional: Prompt-Suffix",
+}
+
+
 class ICStructuredImagePrompt:
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "style": (
+                INPUT_KEYS["style"]: (
                     "STRING",
                     {
                         "multiline": True,
                         "default": "cinematic fantasy realism, detailed materials, coherent composition",
                     },
                 ),
-                "camera_angle": (
+                INPUT_KEYS["camera_angle"]: (
                     "STRING",
                     {
                         "multiline": True,
                         "default": "medium full shot, slight low angle, 35mm lens perspective",
                     },
                 ),
-                "lighting": (
+                INPUT_KEYS["lighting"]: (
                     "STRING",
                     {
                         "multiline": True,
                         "default": "soft rim light, warm key light, atmospheric depth",
                     },
                 ),
-                "background": (
+                INPUT_KEYS["background"]: (
                     "STRING",
                     {
                         "multiline": True,
                         "default": "ancient city street after rain, distant lanterns, subtle mist",
                     },
                 ),
-                "characters": (
+                INPUT_KEYS["characters"]: (
                     "STRING",
                     {
                         "multiline": True,
@@ -50,14 +70,14 @@ class ICStructuredImagePrompt:
                         ),
                     },
                 ),
-                "action": (
+                INPUT_KEYS["action"]: (
                     "STRING",
                     {
                         "multiline": True,
                         "default": "Mira watches the rooftops while Oskar repairs a small flying drone beside her",
                     },
                 ),
-                "clothing": (
+                INPUT_KEYS["clothing"]: (
                     "STRING",
                     {
                         "multiline": True,
@@ -67,7 +87,7 @@ class ICStructuredImagePrompt:
                         ),
                     },
                 ),
-                "assets": (
+                INPUT_KEYS["assets"]: (
                     "STRING",
                     {
                         "multiline": True,
@@ -77,31 +97,31 @@ class ICStructuredImagePrompt:
                         ),
                     },
                 ),
-                "quality_tags": (
+                INPUT_KEYS["quality_tags"]: (
                     "STRING",
                     {
                         "multiline": True,
                         "default": "high quality, sharp focus, rich texture detail, natural color harmony",
                     },
                 ),
-                "negative_prompt": (
+                INPUT_KEYS["negative_prompt"]: (
                     "STRING",
                     {
                         "multiline": True,
                         "default": DEFAULT_NEGATIVE_PROMPT,
                     },
                 ),
-                "prompt_format": (
+                INPUT_KEYS["prompt_format"]: (
                     ["natural", "tagged", "cinematic", "sdxl", "flux"],
                     {"default": "natural"},
                 ),
-                "include_labels": ("BOOLEAN", {"default": False}),
-                "strict_character_refs": ("BOOLEAN", {"default": True}),
-                "show_debug": ("BOOLEAN", {"default": True}),
+                INPUT_KEYS["include_labels"]: ("BOOLEAN", {"default": False}),
+                INPUT_KEYS["strict_character_refs"]: ("BOOLEAN", {"default": True}),
+                INPUT_KEYS["show_debug"]: ("BOOLEAN", {"default": True}),
             },
             "optional": {
-                "prompt_prefix": ("STRING", {"multiline": True, "default": ""}),
-                "prompt_suffix": ("STRING", {"multiline": True, "default": ""}),
+                INPUT_KEYS["prompt_prefix"]: ("STRING", {"multiline": True, "default": ""}),
+                INPUT_KEYS["prompt_suffix"]: ("STRING", {"multiline": True, "default": ""}),
             },
         }
 
@@ -110,25 +130,24 @@ class ICStructuredImagePrompt:
     FUNCTION = "build_prompt"
     CATEGORY = "IC/Prompting"
 
-    def build_prompt(
-        self,
-        style,
-        camera_angle,
-        lighting,
-        background,
-        characters,
-        action,
-        clothing,
-        assets,
-        quality_tags,
-        negative_prompt,
-        prompt_format,
-        include_labels,
-        strict_character_refs,
-        show_debug,
-        prompt_prefix="",
-        prompt_suffix="",
-    ):
+    def build_prompt(self, **kwargs):
+        style = self._input(kwargs, "style")
+        camera_angle = self._input(kwargs, "camera_angle")
+        lighting = self._input(kwargs, "lighting")
+        background = self._input(kwargs, "background")
+        characters = self._input(kwargs, "characters")
+        action = self._input(kwargs, "action")
+        clothing = self._input(kwargs, "clothing")
+        assets = self._input(kwargs, "assets")
+        quality_tags = self._input(kwargs, "quality_tags")
+        negative_prompt = self._input(kwargs, "negative_prompt")
+        prompt_format = self._input(kwargs, "prompt_format", "natural")
+        include_labels = self._input(kwargs, "include_labels", False)
+        strict_character_refs = self._input(kwargs, "strict_character_refs", True)
+        show_debug = self._input(kwargs, "show_debug", True)
+        prompt_prefix = self._input(kwargs, "prompt_prefix")
+        prompt_suffix = self._input(kwargs, "prompt_suffix")
+
         character_map, character_freeform = self._parse_named_block(characters)
         clothing_map, clothing_freeform = self._parse_named_block(clothing)
         asset_map, asset_freeform = self._parse_named_block(assets)
@@ -177,6 +196,9 @@ class ICStructuredImagePrompt:
                 "result": (prompt, negative, character_summary, warning_text),
             }
         return {"result": (prompt, negative, character_summary, warning_text)}
+
+    def _input(self, kwargs, key, default=""):
+        return kwargs.get(INPUT_KEYS[key], kwargs.get(key, default))
 
     def _parse_named_block(self, text):
         text = (text or "").strip()

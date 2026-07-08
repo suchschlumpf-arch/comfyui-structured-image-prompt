@@ -36,6 +36,25 @@ Outputs:
 - `character_summary`
 - `warnings`
 
+## Inputs
+
+The ComfyUI node uses numbered input headings:
+
+- `01 Bildstil`
+- `02 Bildwinkel / Kamera`
+- `03 Beleuchtung`
+- `04 Hintergrund`
+- `05 Charaktere`
+- `06 Handlung`
+- `07 Kleidung`
+- `08 Assets / Requisiten`
+- `09 Qualitaets-Tags`
+- `10 Negativer Prompt`
+- `11 Prompt-Format`
+- `12 Abschnittsueberschriften im Prompt`
+- `13 Charakter-Referenzen pruefen`
+- `14 Prompt in der Node anzeigen`
+
 ## Character References
 
 Use a YAML-like character block:
