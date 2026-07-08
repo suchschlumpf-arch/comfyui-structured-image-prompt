@@ -38,7 +38,8 @@ Outputs:
 
 ## Inputs
 
-The ComfyUI node uses english lower-case widget names:
+The ComfyUI node uses english lower-case widget names and visible field prefixes
+inside the default text values:
 
 - `style`
 - `camera angle`
@@ -55,9 +56,10 @@ The ComfyUI node uses english lower-case widget names:
 - `check character refs`
 - `show debug`
 
-Multiline text fields can hide their names in ComfyUI's node body, so this
-package also includes a small frontend extension that draws visible lower-case
-labels above the large text fields.
+ComfyUI can hide multiline widget names in the expanded node body. To keep the
+fields readable, new nodes start their text values with prefixes like
+`style:`, `camera angle:`, `characters:`, and `negative prompt:`. These prefixes
+are stripped automatically and will not appear in the generated prompt.
 
 ## Character References
 

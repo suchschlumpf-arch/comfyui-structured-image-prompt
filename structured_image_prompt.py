@@ -70,7 +70,7 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "cinematic fantasy realism, detailed materials, coherent composition",
+                        "default": "style: cinematic fantasy realism, detailed materials, coherent composition",
                         "tooltip": "Allgemeiner visueller Stil: Genre, Medium, Render-Look, Epoche, Detailgrad.",
                     },
                 ),
@@ -78,7 +78,7 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "medium full shot, slight low angle, 35mm lens perspective",
+                        "default": "camera angle: medium full shot, slight low angle, 35mm lens perspective",
                         "tooltip": "Kameraperspektive, Bildausschnitt, Brennweite, Komposition und Blickrichtung.",
                     },
                 ),
@@ -86,7 +86,7 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "soft rim light, warm key light, atmospheric depth",
+                        "default": "lighting: soft rim light, warm key light, atmospheric depth",
                         "tooltip": "Lichtquellen, Stimmung, Schatten, Kontrast, Tageszeit und Atmosphaere.",
                     },
                 ),
@@ -94,7 +94,7 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "ancient city street after rain, distant lanterns, subtle mist",
+                        "default": "background: ancient city street after rain, distant lanterns, subtle mist",
                         "tooltip": "Ort, Umgebung, Wetter, Architektur, Tiefe und sichtbare Hintergrundelemente.",
                     },
                 ),
@@ -103,6 +103,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": (
+                            "characters:\n"
                             "Mira: young rogue mage, short silver hair, confident expression\n"
                             "Oskar: old mechanic, heavy beard, tired eyes"
                         ),
@@ -113,7 +114,7 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "[Mira] watches the rooftops while [Oskar] repairs a small flying drone beside her",
+                        "default": "action: [Mira] watches the rooftops while [Oskar] repairs a small flying drone beside her",
                         "tooltip": "Was passiert im Bild? Nutze [Name], um Charaktere eindeutig zu referenzieren.",
                     },
                 ),
@@ -122,6 +123,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": (
+                            "clothing:\n"
                             "Mira: black tactical coat, blue scarf, leather boots\n"
                             "Oskar: worn orange work jacket, welding gloves"
                         ),
@@ -133,6 +135,7 @@ class ICStructuredImagePrompt:
                     {
                         "multiline": True,
                         "default": (
+                            "assets:\n"
                             "Mira: engraved wand, glowing wrist charm\n"
                             "Oskar: toolbox, brass repair drone"
                         ),
@@ -143,7 +146,7 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": "high quality, sharp focus, rich texture detail, natural color harmony",
+                        "default": "quality tags: high quality, sharp focus, rich texture detail, natural color harmony",
                         "tooltip": "Qualitaets- und Detailbegriffe, die am Ende des positiven Prompts ergaenzt werden.",
                     },
                 ),
@@ -151,7 +154,7 @@ class ICStructuredImagePrompt:
                     "STRING",
                     {
                         "multiline": True,
-                        "default": DEFAULT_NEGATIVE_PROMPT,
+                        "default": f"negative prompt: {DEFAULT_NEGATIVE_PROMPT}",
                         "tooltip": "Begriffe, die im Bild vermieden werden sollen.",
                     },
                 ),
@@ -175,11 +178,11 @@ class ICStructuredImagePrompt:
             "optional": {
                 INPUT_KEYS["prompt_prefix"]: (
                     "STRING",
-                    {"multiline": True, "default": "", "tooltip": "Text, der vor den fertigen Prompt gesetzt wird, z.B. LoRA-Trigger."},
+                    {"multiline": False, "default": "", "tooltip": "Text, der vor den fertigen Prompt gesetzt wird, z.B. LoRA-Trigger."},
                 ),
                 INPUT_KEYS["prompt_suffix"]: (
                     "STRING",
-                    {"multiline": True, "default": "", "tooltip": "Text, der nach den fertigen Prompt gesetzt wird."},
+                    {"multiline": False, "default": "", "tooltip": "Text, der nach den fertigen Prompt gesetzt wird."},
                 ),
             },
         }
@@ -381,7 +384,7 @@ class ICStructuredImagePrompt:
             if match and match.group(1).strip().upper() in FIELD_HEADINGS:
                 text = stripped[match.end():]
                 continue
-            match = re.match(r"^([A-Z /-]{3,40})\s*:\s*", stripped)
+            match = re.match(r"^([A-Za-z /-]{3,40})\s*:\s*", stripped)
             if match and match.group(1).strip().upper() in FIELD_HEADINGS:
                 text = stripped[match.end():]
                 continue
@@ -392,7 +395,7 @@ class ICStructuredImagePrompt:
         bracketed = re.match(r"^\[([^\]]+)\]$", stripped)
         if bracketed:
             return bracketed.group(1).strip().upper() in FIELD_HEADINGS
-        colon = re.match(r"^([A-Z /-]{3,40})\s*:$", stripped)
+        colon = re.match(r"^([A-Za-z /-]{3,40})\s*:$", stripped)
         if colon:
             return colon.group(1).strip().upper() in FIELD_HEADINGS
         return stripped.upper() in FIELD_HEADINGS
