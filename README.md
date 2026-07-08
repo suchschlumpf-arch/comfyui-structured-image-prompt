@@ -40,23 +40,23 @@ Outputs:
 
 The ComfyUI node uses short, visible input headings and tooltips:
 
-- `BILDSTIL / LOOK`
-- `KAMERA / BILDWINKEL`
-- `BELEUCHTUNG`
-- `HINTERGRUND / SETTING`
-- `CHARAKTERE`
-- `HANDLUNG / POSE`
-- `KLEIDUNG`
-- `ASSETS / REQUISITEN`
-- `QUALITAET / DETAILS`
-- `NEGATIVER PROMPT`
+- `=== 01 BILDSTIL / LOOK ===`
+- `=== 02 KAMERA / BILDWINKEL ===`
+- `=== 03 BELEUCHTUNG ===`
+- `=== 04 HINTERGRUND / SETTING ===`
+- `=== 05 CHARAKTERE ===`
+- `=== 06 HANDLUNG / POSE ===`
+- `=== 07 KLEIDUNG ===`
+- `=== 08 ASSETS / REQUISITEN ===`
+- `=== 09 QUALITAET / DETAILS ===`
+- `=== 10 NEGATIVER PROMPT ===`
 - `PROMPT-FORMAT`
 - `LABELS IM PROMPT`
 - `REFERENZEN PRUEFEN`
 - `PROMPT IN NODE ANZEIGEN`
 
-Default text fields also include visible helper headers such as `[CHARAKTERE]`.
-These helper headers are stripped automatically and will not appear in the final prompt.
+The `=== ... ===` fields are visible separator widgets. They are ignored by the
+node and will not appear in the final prompt.
 
 ## Character References
 
